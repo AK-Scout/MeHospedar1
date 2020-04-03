@@ -1,0 +1,87 @@
+﻿<!------ Include the above in your HEAD tag ---------->
+
+@model  Projeto01.Areas.Seguranca.Models.UsuarioViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Acessando o sistema";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+<div class="container">
+    <div id="loginbox" style="margin-top:0px; margin-left:0px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Cadastre-se</div>
+                <!--<div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Entre aqui</a></div>   -->
+            </div>
+            <div class="panel-body">
+                <form id="signupform" class="form-horizontal" role="form">
+
+                    <div id="signupalert" style="display:none" class="alert alert-danger">
+                        <p>Error:</p>
+                        <span></span>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <label for="email" class="col-md-4 control-label">E-mail</label>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "E-mail" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <label for="firstname" class="col-md-4 control-label">Nome</label>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", placeholder = "Nome" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <label for="lastname" class="col-md-4 control-label">Sobrenome</label>      
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="lastname" placeholder="Sobrenome">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <label for="username" class="col-md-4 control-label">Usuário</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="username" placeholder="Usuário">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <label for="password" class="col-md-4 control-label">Senha</label>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control col-md-9", type = "password", placeholder = "Senha" } })
+                            @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <!-- Button -->
+                        <div class="col-md-offset-3 col-md-9">
+                            <!--<button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Cadastrar</button>-->
+                            <input type="submit" value="Adicionar Usuário" class="btn btn-danger" />
+                        </div>                  
+                        <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
+
+                            <div class="col-md-offset-3 col-md-9">
+                                <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i> Entrar com Facebook</button>
+                            </div>
+
+                        </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+
+

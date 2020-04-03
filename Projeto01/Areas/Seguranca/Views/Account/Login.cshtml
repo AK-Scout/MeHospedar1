@@ -1,0 +1,235 @@
+﻿<!------ Include the above in your HEAD tag ---------->
+
+@model  Projeto01.Areas.Seguranca.Models.LoginViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Acessando o sistema";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div id="loginbox" style="margin-top:0px; margin-left:0px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Efetuar Login</div>
+                    <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Esqueceu a senha?</a></div>
+                </div>
+
+                <div style="padding-top:30px" class="panel-body">
+                    <div class="form-horizontal">
+                    @if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+                    {
+                        <div class="alert alert-danger alert-dismissable">
+                            @Html.ValidationSummary(false, "Verifique os seguintes erros: ")
+                        </div>
+                    }
+                    </div>
+
+                    <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+
+                    <form id="loginform" class="form-horizontal" role="form">
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuário" } })
+                                @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", type = "password", placeholder = "Senha" } })
+                                @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="input-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="login-remember" type="checkbox" name="remember" value="1"> Lembrar-me neste computador
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Button -->
+
+                            <div class="col-sm-12 controls">
+                                <!--  <a id="btn-login" href="#" class="btn btn-success">Login  </a>-->
+                                <input type="submit" value="Login" class="btn btn-success" />
+                                <a id="btn-fblogin" href="#" class="btn btn-primary">Login com Facebook</a>
+
+                            </div>
+
+                            <div class="col-md-offset-2 col-md-10">
+                                
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                    Não tem uma conta?
+                                    @Html.ActionLink("Crie Aqui", "Create", "Account")
+                                    <!-- <a href="#" onClick="$('#loginbox').hide(); $('#signupbox').show()"> Crie aqui</a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div id="signupbox" style="display:none; margin-top:0px; margin-left:0px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Cadastre-se</div>
+                    <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Entre aqui</a></div>
+                </div>
+                <div class="panel-body">
+                    <form id="signupform" class="form-horizontal" role="form">
+
+                        <div id="signupalert" style="display:none" class="alert alert-danger">
+                            <p>Error:</p>
+                            <span></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="col-md-3 control-label">E-mail</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="email" placeholder="E-mail">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="firstname" class="col-md-3 control-label">Nome</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="firstname" placeholder="Nome">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastname" class="col-md-3 control-label">Sobrenome</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="lastname" placeholder="Sobrenome">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="col-md-3 control-label">Usuário</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="username" placeholder="Usuário">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="col-md-3 control-label">Senha</label>
+                            <div class="col-md-9">
+                                <input type="password" class="form-control" name="passwd" placeholder="Senha">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- Button -->
+                            <div class="col-md-offset-3 col-md-9">
+                                <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Cadastrar</button>
+                                <span style="margin-left:8px;">or</span>
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid #999; padding-top:20px" class="form-group">
+
+                            <div class="col-md-offset-3 col-md-9">
+                                <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i> Entrar com Facebook</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+@*
+
+
+
+
+
+
+
+    @model  Projeto01.Areas.Seguranca.Models.LoginViewModel
+    @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        ViewBag.Title = "Acessando o sistema";
+    }
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Acessando o sistema
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    @if (ViewData.ModelState.Keys.Any(k => ViewData.ModelState[k].Errors.Count() > 0))
+                    {
+                        <div class="alert alert-danger alert-dismissable">
+                            @Html.ValidationSummary(false, "Verifique os seguintes erros: ")
+                        </div>
+                    }
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon1"> @@ </span>
+                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuário" } })
+                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    </div>
+
+                    @*
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Nome,htmlAttributes: new{@class ="control-label col-md-2"})
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Nome, new{htmlAttributes = new{@class ="form-control"}})
+                                @Html.ValidationMessageFor(model => model.Nome, "", new{@class ="text-danger"})
+                            </div>
+                        </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Senha, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+*@
+
+@*
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon" id="sizing-addon1"> @@ </span>
+                        @Html.EditorFor(model => model.Senha, new { htmlAttributes = new { @class = "form-control", type = "password", placeholder = "Senha" } })
+                        @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer panel-info">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Acessar" class="btn btn-danger" />
+                </div>
+                <br />
+                <br />
+            </div>
+        </div>
+    }
+
+
+
+*@

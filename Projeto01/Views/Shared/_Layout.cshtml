@@ -1,0 +1,81 @@
+﻿@using Projeto01.Infraestrutura
+<!DOCTYPE	html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/content/bootstrap.css")"
+          rel="stylesheet" />
+    @RenderSection("styles", false)
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="page-header	bg-danger">
+                <h1>
+                    MeHospedar.com
+                </h1>
+            </div>
+            <div style="text-align:right;">
+            @{
+                if (Html.GetAuthenticatedUser().ToString() != "")
+                {
+                    @Html.GetAuthenticatedUser();
+                    @Html.ActionLink(" - Sair", "Logout", "Account");
+                }
+                else
+                {
+                    @Html.ActionLink("Acessar", "Login", "Account", new { area = "Seguranca" }, null);
+                }
+            }
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3	col-md-3	bg-success">
+                <ul class="nav	nav-pills	nav-stacked">
+                    <li id="liHome" role="presentation" class="active">
+                        <a href="#">Home</a>
+                    </li>
+                    <li id="liCategorias" role="presentation">
+                        @Html.ActionLink("Categorias", "Index", "Categorias", new { area = "Tabelas" }, null)
+                    </li>
+                    <li id="liFabricantes" role="presentation">
+                        @Html.ActionLink("Fabricantes", "Index", "Fabricantes", new { area = "Cadastros" }, null)
+                    </li>
+                    <li id="liProdutos" role="presentation">
+                        @Html.ActionLink("Produtos", "Index", "Produtos", new { area = "Cadastros" }, null)
+                    </li>
+                    <li id="liUsuarios" role="presentation">
+                        @Html.ActionLink("Usuários", "Index", "Admin", new { area = "Seguranca" }, null)
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-9	col-md-9">
+                <br />
+                @RenderBody()
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xs-12	col-md-12	bg-danger">
+                <small>Rodapé com Informações</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="@Url.Content("~/scripts/jquery-2.2.4.js")"></script>
+    @*   <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+        <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    *@
+    <script src="@Url.Content("~/scripts/bootstrap.js")"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li').removeClass("active");
+        });
+    </script>
+
+
+    @RenderSection("ScriptPage", false)
+</body>
+</html>
